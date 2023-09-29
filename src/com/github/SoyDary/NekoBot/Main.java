@@ -61,7 +61,7 @@ public class Main {
     		return;
     	}
     	discordManager = new DiscordManager(this);
-    		
+    		//uwu
     }
     
     public void onDisable(boolean exit) {
