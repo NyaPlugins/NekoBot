@@ -1,9 +1,12 @@
 package com.github.SoyDary.NekoBot.Objects;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.SoyDary.NekoBot.Main;
-import com.github.SoyDary.NekoBot.Util.Utils;
 import com.github.SoyDary.NekoBot.Util.MessageUtil;
 import com.github.SoyDary.NekoBot.Util.MessageUtil.Component;
+import com.github.SoyDary.NekoBot.Util.Utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -27,14 +30,9 @@ import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 public class JDAListener extends ListenerAdapter {
 
 	Main main;
-
 	public JDAListener(Main main) {
 		this.main = main;
 	}

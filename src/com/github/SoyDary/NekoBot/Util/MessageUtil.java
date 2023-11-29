@@ -35,6 +35,7 @@ public class MessageUtil {
 	}
 	
 	public static MessageCreateData getMessage(Map<Component, String> components, List<LayoutComponent> actions) {
+		
 		MessageCreateBuilder message = new MessageCreateBuilder();
 		String content = components.get(Component.CONTENT);	
 		String color = components.get(Component.COLOR);
@@ -60,6 +61,7 @@ public class MessageUtil {
 			if(footer_img != null) embed.setFooter(footer, footer_img); else embed.setFooter(footer);
 			message.addEmbeds(embed.build());
 		}
+		message.setComponents();
 		if(actions != null) message.setComponents(actions);
 		return message.build();
 	}
