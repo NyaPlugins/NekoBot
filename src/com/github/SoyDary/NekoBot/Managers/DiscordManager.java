@@ -35,40 +35,41 @@ public class DiscordManager {
 		//unregisterCommands();
 		main.getLogger().info("Verificando comandos...");
 		commandData.put("embed", Commands.slash("embed", "Crea un embed")
+				.setGuildOnly(true)
 				.addOption(OptionType.STRING, "json", "Embed a partir de un json")
 				.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 		
-		
+		/*
 		commandData.put("buttonrole", Commands.slash("buttonrole", "Crear y eliminar botones para otorgar roles").addSubcommands(
-				new SubcommandData("create", "Craa un botón que otorga un rol al presionarse.")             
+				new SubcommandData("create", "Craa un botón que otorga un rol al presionarse")             
 				.addOptions(	
-						new OptionData(OptionType.ROLE, "rol", "Rol que otorga el botón al presionarse.").setRequired(true),
-						new OptionData(OptionType.STRING, "color", "Color del botón")
-							.addChoice("Azul", "PRIMARY")
-							.addChoice("Gris", "SECONDARY")
-							.addChoice("Verde", "SUCCESS")
-							.addChoice("Rojo", "DANGER"),
-						new OptionData(OptionType.STRING, "emoji", "Emoji del botón.").setMinLength(1),
-						new OptionData(OptionType.STRING, "texto", "Texto del botón."),						
-						new OptionData(OptionType.BOOLEAN, "nofificar", "Responder con un mensaje al presionarse.")), 
+						new OptionData(OptionType.CHANNEL, "canal", "Canal del mensaje.").setRequired(true),				
+						new OptionData(OptionType.INTEGER, "id", "ID del mensaje").setRequired(true)), 
 				
 				new SubcommandData("delete", "Elimina botones de rol de un mensaje.")
 				.addOptions(
-						new OptionData(OptionType.CHANNEL, "canal", "Canal del mensaje").setRequired(true),
-						new OptionData(OptionType.INTEGER, "id", "Canal del mensaje").setRequiredRange(20, 20).setRequired(true)))
+						new OptionData(OptionType.CHANNEL, "canal", "Canal del mensaje.").setRequired(true),				
+						new OptionData(OptionType.INTEGER, "id", "ID del mensaje").setRequiredRange(20, 20).setRequired(true))) 
+				.setGuildOnly(true)
 				.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+		*/		
 		
 		commandData.put("Editar", Commands.message("Editar")
 				.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 		
 		commandData.put("Copiar embed", Commands.message("Copiar embed")
 				.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+		
+		commandData.put("Botones de rol", Commands.message("Botones de rol").setGuildOnly(true)
+				.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+
 
 		List<String> commands = new ArrayList<String>();
 		for(Command cmd : main.getJda().retrieveCommands().complete()) {
 			commands.add(cmd.getName());
+			
 			CommandData data = commandData.get(cmd.getName());
-			if(cmd != null) updateCommand(data, cmd);
+			if(data != null) updateCommand(data, cmd);
 		}
 		commandData.values().forEach(cmd -> {
 			if(!commands.contains(cmd.getName())) registerCommand(cmd);
@@ -151,6 +152,18 @@ public class DiscordManager {
 					main.getLogger().info("[>>>>] Actualizados los permisos del comando '"+s.getName()+"'");
 				});
 			} 
+			
+			if(command.isGuildOnly() != commandData.isGuildOnly()) {
+	    		command.editCommand().setGuildOnly(commandData.isGuildOnly()).queue(s -> {
+	    			main.getLogger().info("[>>>>] Actualizado el guild-mode del comando '"+s.getName()+"'");
+	    		});	 
+			}
+			
+			if(command.isNSFW() != commandData.isNSFW()) {
+	    		command.editCommand().setNSFW(commandData.isNSFW()).queue(s -> {
+	    			main.getLogger().info("[>>>>] Actualizado el modo NSFW del comando '"+s.getName()+"'");
+	    		});	 
+			}
 			
 	    	if(!command.getName().equals(label))
 	    		command.editCommand().setName(label).queue(s -> {

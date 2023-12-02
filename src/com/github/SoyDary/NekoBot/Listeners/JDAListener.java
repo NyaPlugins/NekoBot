@@ -1,4 +1,4 @@
-package com.github.SoyDary.NekoBot.Objects;
+package com.github.SoyDary.NekoBot.Listeners;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,7 +57,40 @@ public class JDAListener extends ListenerAdapter {
     		}
     	}	
     }
-    
+    /*
+	public static Object disableButtonFunction(ButtonInteractionEvent button_event, String... ids) {
+    	Runnable task = () -> {
+    		try {
+    			List<ActionRow> components = new ArrayList<ActionRow>();
+    			for(ActionRow row : button_event.getMessage().getActionRows()) {
+    				List<Button> bts = new ArrayList<Button>();
+    				for(Button button : row.getButtons()) {
+    					boolean toDisable = Arrays.stream(ids).anyMatch(id -> id.equalsIgnoreCase(button.getId()));
+    					bts.add(toDisable ? button.asDisabled() : button);	
+    				}	
+    				components.add(ActionRow.of(bts.toArray(new ItemComponent[0])));			
+    			}	
+    			button_event.getMessage().editMessageComponents(components).queue();
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	};
+    	return task;  
+	}
+	*/
+    /*
+    StringSelectMenu menu = StringSelectMenu.create("EMBED_EDIT:"+message.getId())     
+    .addOptions(
+    		SelectOption.of("Contenido", "content").withDescription("Texto normal del mensaje").withEmoji(Emoji.fromUnicode("✏️")), 
+    		SelectOption.of("Color", "color").withDescription("Color del embed").withEmoji(Emoji.fromUnicode("🌈")),
+    		SelectOption.of("Autor", "author").withDescription("Autor del embed").withEmoji(Emoji.fromUnicode("👤")),
+    		SelectOption.of("Título", "title").withDescription("Título del embed").withEmoji(Emoji.fromUnicode("🏷️")),
+    		SelectOption.of("Descripción", "description").withDescription("Descripción del embed").withEmoji(Emoji.fromUnicode("📑")),
+    		SelectOption.of("Miniatura", "thumbnail").withDescription("Imagen pequeña en la esquina del embed").withEmoji(Emoji.fromUnicode("🖼️")),
+    		SelectOption.of("Imagen", "image").withDescription("Imagen principal del embed").withEmoji(Emoji.fromUnicode("🗺️")),
+    		SelectOption.of("Píe", "footer").withDescription("Píe del embed").withEmoji(Emoji.fromUnicode("🥾"))).build();
+    messageBuilder.addActionRow(menu);
+    */
     public void onMessageContextInteraction(MessageContextInteractionEvent e) {
     	Message message = e.getTarget();
     	if(e.getName().equals("Editar")) {
@@ -199,6 +232,7 @@ public class JDAListener extends ListenerAdapter {
     	}
     	
     }
+    
     public void onSlashCommandInteraction(SlashCommandInteractionEvent e) {
     	if(e.getName().equals("embed")) {
     		if(e.getOption("json") != null) {
