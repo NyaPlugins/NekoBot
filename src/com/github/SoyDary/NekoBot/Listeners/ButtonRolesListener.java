@@ -191,7 +191,9 @@ public class ButtonRolesListener extends ListenerAdapter {
     			e.getGuild().addRoleToMember(e.getMember(), rol).reason("Botón de rol").queue(
     					success -> e.reply("> Recibiste el rol "+rol.getAsMention()).setAllowedMentions(Collections.emptySet()).setEphemeral(true).queue(), 
     					error -> e.reply("> Hubo un error al intentar otorgarte el rol "+rol.getAsMention()).setAllowedMentions(Collections.emptyList()).setEphemeral(true).queue());
-    		} 
+    		} else {
+    			e.deferEdit().queue();
+    		}
     		return;
     	}
     }
